@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista;
+package interfaz;
 
 /**
  *
- * @author Hp Victus
+ * @author Richard Yrady, Andres Arrieta, Leonardo Signorino
  */
 public class Interfaz extends javax.swing.JFrame {
     

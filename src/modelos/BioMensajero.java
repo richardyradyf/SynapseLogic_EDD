@@ -6,7 +6,7 @@ package modelos;
 
 /**
  *
- * @author Hp Victus
+ * @author Richard Yrady, Andres Arrieta, Leonardo Signorino
  */
 public class BioMensajero {
     

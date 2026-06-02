@@ -6,7 +6,7 @@ package control;
 
 /**
  *
- * @author Hp Victus
+ * @author Richard Yrady, Andres Arrieta, Leonardo Signorino
  */
 public class Synapse_Logic_RAL {
 
