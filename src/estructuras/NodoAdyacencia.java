@@ -1,5 +1,7 @@
 package estructuras;
 
+import modelos.Sinapsis;
+
 public class NodoAdyacencia {
 
     private String idDestino;
@@ -28,3 +30,4 @@ public class NodoAdyacencia {
 
     /** @return Sinapsis de esta arista. */
     public Sinapsis getSinapsis() { return sinapsis; }
+}
