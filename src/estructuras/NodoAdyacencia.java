@@ -8,7 +8,7 @@ public class NodoAdyacencia {
 
     private Sinapsis sinapsis;
 
-    NodoAdyacencia siguiente;
+    public NodoAdyacencia siguiente;
 
     /**
      * Constructor de NodoAdyacencia.
@@ -30,4 +30,12 @@ public class NodoAdyacencia {
 
     /** @return Sinapsis de esta arista. */
     public Sinapsis getSinapsis() { return sinapsis; }
+    
+    /**
+     * Establece o actualiza la sinapsis asociada a este nodo de adyacencia.
+     * @param sinapsis 
+     */
+    public void setSinapsis(Sinapsis sinapsis) {
+    this.sinapsis = sinapsis;
+    }
 }
