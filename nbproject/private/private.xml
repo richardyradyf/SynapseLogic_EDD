@@ -3,13 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/modelos/NodoNeural.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/modelos/Sinapsis.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/estructuras/EntradaRepoQuimico.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/estructuras/RepoQuimico.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/estructuras/HashTable.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/estructuras/Cola.java</file>
-            <file>file:/C:/Users/Hp%20Victus/Documents/NetBeansProjects/Synapse_Logic_RAL/src/estructuras/Pila.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/modelos/BioMensajero.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/NodoAdyacencia.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/RedConectiva.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/Pila.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/Cola.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/EntradaRepoQuimico.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/HashTable.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/estructuras/RepoQuimico.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/modelos/NodoNeural.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/modelos/Sinapsis.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/algoritmos/MotorAlgoritmico.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/control/AdministradorDeArchivos.java</file>
+            <file>file:/C:/Users/andre/OneDrive/Documentos/NetBeansProjects/SynapseLogic_EDD/src/control/Synapse_Logic_RAL.java</file>
         </group>
     </open-files>
 </project-private>

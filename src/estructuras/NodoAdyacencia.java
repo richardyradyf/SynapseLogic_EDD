@@ -1,5 +1,7 @@
 package estructuras;
 
+import modelos.Sinapsis;
+
 public class NodoAdyacencia {
 
     private String idDestino;
