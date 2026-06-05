@@ -39,7 +39,7 @@ public class RedConectiva {
         numVertices = 0;
     }
 
-    // VÉRTICES 
+    //VÉRTICES 
 
     /**
      * Agrega un NodoNeural si no existe ya.
@@ -107,7 +107,7 @@ public class RedConectiva {
         return nodos;
     }
 
-    //  ARISTAS 
+    //ARISTAS 
 
     /**
      * Agrega una Sinapsis dirigida. Crea nodos si no existen.
