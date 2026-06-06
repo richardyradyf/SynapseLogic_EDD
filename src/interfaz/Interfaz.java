@@ -220,12 +220,27 @@ public class Interfaz extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setText("<html>Calcular Ruta Optima<br>(Dijkstra)");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton4.setText("Busqueda BFS");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton5.setText("Busqueda DFS");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton6.setText("Verificar Red Conexa");
@@ -405,6 +420,73 @@ public class Interfaz extends javax.swing.JFrame {
     jList1.setModel(modeloLista);
     }//GEN-LAST:event_cbExploradorActionPerformed
     }
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // 1. Agarramos el ID de la neurona de origen seleccionada
+String idInicio = (String) cbOrigen.getSelectedItem(); 
+
+// Nos aseguramos de que no diga "Item 1" por si se nos olvidó cargar los archivos
+if (idInicio != null && !idInicio.startsWith("Item")) {
+    
+    // 2. Limpiamos cualquier visita anterior para que el BFS empiece en limpio
+    cerebro.reiniciarVisitas();
+    
+    // 3. Ejecutamos el algoritmo en tu backend
+    String ruta = cerebro.recorridoBFS(idInicio);
+    
+    // 4. Imprimimos el resultado en tu cuadro de texto grande
+    jTextArea2.setText("Propagación de señal (BFS) desde la neurona " + idInicio + ":\n\n" + ruta);
+    
+} else {
+    jTextArea2.setText("Por favor, selecciona una neurona de origen válida (asegúrate de cargar la red primero).");
+}
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // 1. Agarramos el Origen y el Destino de los menús desplegables
+String idOrigen = (String) cbOrigen.getSelectedItem(); 
+String idDestino = (String) cbDestino.getSelectedItem();
+
+// Nos aseguramos de que los menús tengan datos reales
+if (idOrigen != null && idDestino != null && !idOrigen.startsWith("Item")) {
+    
+    // 2. Instanciamos tu motor de algoritmos y le pasamos la red y el diccionario cargados
+    algoritmos.MotorAlgoritmico motor = new algoritmos.MotorAlgoritmico(cerebro, diccionario);
+    
+    // 3. Ejecutamos a nuestro Jefe Final (Dijkstra)
+    algoritmos.MotorAlgoritmico.ResultadoDijkstra resultado = motor.dijkstra(idOrigen, idDestino);
+    
+    // 4. Mostramos los resultados en la pantalla blanca
+    if (resultado.existeCamino) {
+        StringBuilder texto = new StringBuilder();
+        texto.append("*** RUTA ÓPTIMA ENCONTRADA (Dijkstra Min-Heap Custom) ***\n\n");
+        texto.append("Recorrido: ");
+        
+        // Unimos el arreglo de ruta con flechitas a mano
+        for (int i = 0; i < resultado.ruta.length; i++) {
+            texto.append(resultado.ruta[i]);
+            if (i < resultado.ruta.length - 1) {
+                texto.append(" -> ");
+            }
+        }
+        
+        texto.append("\n\nDistancia Total (Costo ajustado con Químicos): ");
+        // Imprimimos el costo con solo dos decimales para que se vea limpio
+        texto.append(String.format("%.2f", resultado.distanciaMinima));
+        
+        jTextArea2.setText(texto.toString());
+    } else {
+        jTextArea2.setText("No existe una ruta conectada entre la neurona " + idOrigen + " y la " + idDestino + ".");
+    }
+    
+} else {
+    jTextArea2.setText("Por favor, selecciona neuronas de origen y destino válidas.");
+}
+    }//GEN-LAST:event_jButton3ActionPerformed
+    
     /**
      * @param args the command line arguments
      */

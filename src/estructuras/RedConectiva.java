@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -6,6 +7,10 @@ package estructuras;
 
 import modelos.NodoNeural;
 import modelos.Sinapsis;
+// Agregamos estas herramientas estándar de Java para manejar la cola del BFS
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.HashSet;
 
 /**
  *
@@ -209,6 +214,42 @@ public class RedConectiva {
             while (nodo != null) { resultado[idx++] = nodo.getSinapsis(); nodo = nodo.siguiente; }
         }
         return resultado;
+    }
+
+    /**
+     * Realiza un recorrido en Anchura (BFS) desde una neurona inicial.
+     * @param idInicio ID de la neurona de partida.
+     * @return Cadena con el orden del recorrido.
+     */
+    public String recorridoBFS(String idInicio) {
+        if (!vertices.contiene(idInicio)) {
+            return "La neurona de inicio no existe.";
+        }
+
+        StringBuilder resultado = new StringBuilder();
+        Queue<String> cola = new LinkedList<>();
+        HashSet<String> visitados = new HashSet<>();
+
+        cola.add(idInicio);
+        visitados.add(idInicio);
+
+        while (!cola.isEmpty()) {
+            String actual = cola.poll();
+            resultado.append(actual).append(" -> ");
+
+            // Buscamos los vecinos de la neurona actual
+            NodoAdyacencia vecino = getListaAdyacencia(actual);
+            while (vecino != null) {
+                String idDestino = vecino.getIdDestino();
+                if (!visitados.contains(idDestino)) {
+                    visitados.add(idDestino);
+                    cola.add(idDestino);
+                }
+                vecino = vecino.siguiente;
+            }
+        }
+        resultado.append("FIN");
+        return resultado.toString();
     }
 
     //  UTILIDADES

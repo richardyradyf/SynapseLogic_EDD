@@ -76,10 +76,8 @@ public class MotorAlgoritmico {
         String[] resultado = new String[count];
         for (int i = 0; i < count; i++) resultado[i] = alcanzados[i];
         return resultado;
-        
-        
-        
     }
+
     /**
      * Recorrido en Profundidad (DFS) iterativo desde un nodo fuente.
      *
@@ -152,25 +150,18 @@ public class MotorAlgoritmico {
         return true;
     }
 
-    //DIJKSTRA
+    // ====================================================================
+    // OPTIMIZACIÓN DIJKSTRA CON MIN-HEAP (HECHO A MANO)
+    // ====================================================================
 
     /**
      * Encapsula el resultado del algoritmo de Dijkstra.
      */
     public static class ResultadoDijkstra {
-        /** Peso total mínimo del camino encontrado. */
         public double distanciaMinima;
-        /** IDs en orden origen → destino. */
         public String[] ruta;
-        /** {@code true} si existe un camino. */
         public boolean existeCamino;
 
-        /**
-         * Constructor.
-         * @param distanciaMinima Peso total del camino óptimo.
-         * @param ruta            IDs del camino.
-         * @param existeCamino    {@code true} si hay camino.
-         */
         public ResultadoDijkstra(double distanciaMinima, String[] ruta, boolean existeCamino) {
             this.distanciaMinima = distanciaMinima;
             this.ruta = ruta;
@@ -179,11 +170,85 @@ public class MotorAlgoritmico {
     }
 
     /**
-     * Algoritmo de Dijkstra — Ruta de Mayor Activación entre dos neuronas.
-     *
-     * @param idOrigen  ID del NodoNeural fuente.
-     * @param idDestino ID del NodoNeural objetivo.
-     * @return {@link ResultadoDijkstra} con la ruta y la distancia mínima.
+     * Elemento interno para manejar el Min-Heap.
+     */
+    private static class ElementoHeap {
+        int indiceNodo;
+        double distancia;
+
+        ElementoHeap(int idx, double dist) {
+            this.indiceNodo = idx;
+            this.distancia = dist;
+        }
+    }
+
+    /**
+     * Cola de Prioridad manual basada en arreglos.
+     */
+    private static class MinHeapCustom {
+        private ElementoHeap[] heap;
+        private int tamano;
+
+        public MinHeapCustom(int capacidadInicial) {
+            heap = new ElementoHeap[capacidadInicial];
+            tamano = 0;
+        }
+
+        public boolean estaVacia() {
+            return tamano == 0;
+        }
+
+        public void insertar(int idx, double dist) {
+            // Si el arreglo se llena, duplicamos su tamaño (muy útil para grafos densos)
+            if (tamano == heap.length) {
+                ElementoHeap[] nuevoHeap = new ElementoHeap[heap.length * 2];
+                System.arraycopy(heap, 0, nuevoHeap, 0, heap.length);
+                heap = nuevoHeap;
+            }
+            heap[tamano] = new ElementoHeap(idx, dist);
+            subir(tamano);
+            tamano++;
+        }
+
+        public ElementoHeap extraerMinimo() {
+            if (tamano == 0) return null;
+            ElementoHeap minimo = heap[0];
+            heap[0] = heap[tamano - 1];
+            tamano--;
+            if (tamano > 0) bajar(0);
+            return minimo;
+        }
+
+        private void subir(int i) {
+            while (i > 0) {
+                int padre = (i - 1) / 2;
+                if (heap[i].distancia >= heap[padre].distancia) break;
+                swap(i, padre);
+                i = padre;
+            }
+        }
+
+        private void bajar(int i) {
+            while (2 * i + 1 < tamano) {
+                int izq = 2 * i + 1;
+                int der = 2 * i + 2;
+                int menor = izq;
+                if (der < tamano && heap[der].distancia < heap[izq].distancia) menor = der;
+                if (heap[i].distancia <= heap[menor].distancia) break;
+                swap(i, menor);
+                i = menor;
+            }
+        }
+
+        private void swap(int i, int j) {
+            ElementoHeap temp = heap[i];
+            heap[i] = heap[j];
+            heap[j] = temp;
+        }
+    }
+
+    /**
+     * Algoritmo de Dijkstra O(E log V) — Ruta de Mayor Activación.
      */
     public ResultadoDijkstra dijkstra(String idOrigen, String idDestino) {
         if (!red.existeNodo(idOrigen) || !red.existeNodo(idDestino))
@@ -200,25 +265,37 @@ public class MotorAlgoritmico {
 
         double[] dist   = new double[n];
         int[] previo = new int[n];
-        boolean[] visto  = new boolean[n];
 
-        for (int i = 0; i < n; i++) { dist[i] = Double.MAX_VALUE; previo[i] = -1; }
+        for (int i = 0; i < n; i++) { 
+            dist[i] = Double.MAX_VALUE; 
+            previo[i] = -1; 
+        }
         dist[src] = 0.0;
 
-        for (int iter = 0; iter < n; iter++) {
-            int u = -1;
-            for (int i = 0; i < n; i++)
-                if (!visto[i] && (u == -1 || dist[i] < dist[u])) u = i;
-            if (u == -1 || dist[u] == Double.MAX_VALUE) break;
-            visto[u] = true;
+        // Instanciamos nuestro MinHeap en lugar del arreglo de visitados
+        MinHeapCustom heap = new MinHeapCustom(n);
+        heap.insertar(src, 0.0);
+
+        while (!heap.estaVacia()) {
+            ElementoHeap actual = heap.extraerMinimo();
+            int u = actual.indiceNodo;
+
+            // Optimización: Si llegamos al destino, cortamos
+            if (u == dst) break;
+
+            // Descartamos distancias viejas que se quedaron en la cola
+            if (actual.distancia > dist[u]) continue;
 
             NodoAdyacencia vecino = red.getListaAdyacencia(ids[u]);
             while (vecino != null) {
                 double peso = calcularPesoSinapsis(vecino.getSinapsis());
                 int v = mapaIndice.get(vecino.getIdDestino());
+                
+                // Relajación de la arista
                 if (v >= 0 && dist[u] + peso < dist[v]) {
                     dist[v] = dist[u] + peso;
                     previo[v] = u;
+                    heap.insertar(v, dist[v]); // Insertamos al Heap en lugar de buscar a pie luego
                 }
                 vecino = vecino.siguiente;
             }
@@ -232,8 +309,6 @@ public class MotorAlgoritmico {
 
     /**
      * Calcula el peso real de una Sinapsis consultando el RepoQuimico.
-     * @param s Sinapsis a evaluar.
-     * @return Peso, o MAX_VALUE si el BioMensajero no existe.
      */
     private double calcularPesoSinapsis(Sinapsis s) {
         BioMensajero bm = repoQuimico.buscar(s.getIdBioMensajero());
@@ -281,15 +356,7 @@ public class MotorAlgoritmico {
         }
     }
 
-    /**
-     * Actualiza la referencia a la RedConectiva.
-     * @param red Nueva red.
-     */
     public void setRed(RedConectiva red) { this.red = red; }
-
-    /**
-     * Actualiza la referencia al RepoQuimico.
-     * @param repoQuimico Nuevo repositorio.
-     */
     public void setRepoQuimico(RepoQuimico repoQuimico) { this.repoQuimico = repoQuimico; }
 }
+
