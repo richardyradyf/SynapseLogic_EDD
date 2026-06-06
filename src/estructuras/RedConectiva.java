@@ -261,4 +261,7 @@ public class RedConectiva {
         return "RedConectiva[nodos=" + numVertices + ", sinapsis=" + numAristas + "]";
     }
     
+    public String[] obtenerArregloNodos(){
+        return vertices.getClaves();
+    }
 }
